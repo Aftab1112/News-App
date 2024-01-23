@@ -29,13 +29,16 @@ export class News extends Component {
     document.title = `Metro News - ${this.props.category}`
   }
   async updateNews(){
+    this.props.setProgress(10)
     const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=6c7897e7b275405d9d90ff2fb8d1690f&page=${this.state.page}&pagesize=${this.props.pageSize}`
     this.setState({loading:true})
     let data = await fetch(url)
+    
     let parsedData = await data.json()
+    this.props.setProgress(70)
     console.log(parsedData)
     this.setState({articles:parsedData.articles,totalResults:parsedData.totalResults,loading:false})
-
+    this.props.setProgress(100)
   }
 
   async componentDidMount(){
